@@ -1,9 +1,9 @@
 import {PresetPacket} from './PresetPacket'
 import {LiveAPI} from '../LiveAPI'
-import BilibiliClient from '../../BilibiliClient'
+import {BilibiliClient} from '../../BilibiliClient'
 import WebSocket from 'ws'
 import Packet, {PacketType, getPacketType} from './Packet'
-import ByteBuffer from '../../lib/ByteBuffer'
+import ByteBuffer from '../../shared/ByteBuffer'
 
 interface CloseReason {
   code: number
@@ -22,10 +22,10 @@ interface LiveClientConfig {
 }
 
 interface LiveCallback {
-  onConnect?: (client?: LiveClient) => void
-  onPopularityPacket?: (popularity: number, client?: LiveClient) => void
-  onCommandPacket?: (obj: any, client?: LiveClient) => void
-  onClose?: (reason: CloseReason, client?: LiveClient) => void
+  onConnect?: (client: LiveClient) => void
+  onPopularityPacket?: (popularity: number, client: LiveClient) => void
+  onCommandPacket?: (obj: any, client: LiveClient) => void
+  onClose?: (reason: CloseReason, client: LiveClient) => void
 }
 
 const defaultConfig: LiveClientConfig = {
@@ -38,7 +38,7 @@ const defaultConfig: LiveClientConfig = {
 /**
  * 直播客户端
  */
-export default class LiveClient {
+export class LiveClient {
   private roomId: number
   private config: LiveClientConfig
   private _callbacks: LiveCallback
@@ -83,8 +83,8 @@ export default class LiveClient {
     this._callbacks.onClose = call
   }
 
-  public async launch(): Promise<null> {
-    return new Promise<null>(async (resolve, reject) => {
+  public async launch(): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
       // 得到原始房间号与主播uid
       let anchorUserId = 0
       if (this.config.fetchRoomId) {
@@ -114,7 +114,6 @@ export default class LiveClient {
 
       // 开启 websocket
       const url = `wss://${host}/sub`
-      console.log(url)
       this.socket = new WebSocket(url)
       this.socket.binaryType = 'arraybuffer'
 

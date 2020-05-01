@@ -1,4 +1,4 @@
-import ByteBuffer from "../../lib/ByteBuffer"
+import ByteBuffer from "../../shared/ByteBuffer"
 
 export enum PacketType {
   UNKNOWN = 0,

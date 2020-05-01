@@ -12,9 +12,6 @@ export namespace LiveAPI {
         id
       }
     })
-    console.log('Room init:')
-    console.log(JSON.stringify(res.data))
-    console.log()
     return res.data as MobileRoom
   }
 
@@ -26,9 +23,6 @@ export namespace LiveAPI {
         room_id: roomId
       }
     })
-    console.log('Got DanmakuConfig')
-    console.log(JSON.stringify(res.data))
-    console.log()
     return res.data as DanmakuConfig
   }
 
