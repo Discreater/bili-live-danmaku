@@ -1,9 +1,9 @@
 {
   "name": "bili-live-danmaku",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Connect to the live room's danmaku system of Bilibili",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "author": "Discreater <discreater@163.com>",
   "license": "GPL-3.0",
   "scripts": {
@@ -33,6 +33,7 @@
     "@types/node": "^13.13.4",
     "@types/ws": "^7.2.4",
     "@typescript-eslint/parser": "^2.30.0",
+    "bili-live-danmaku": "^1.0.0",
     "eslint": "^6.8.0",
     "prettier": "^2.0.5",
     "ts-node": "^8.9.1",
