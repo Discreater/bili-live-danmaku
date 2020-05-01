@@ -1,6 +1,4 @@
-import {LiveClient} from '../src/live/websocket/LiveClient'
-import {BilibiliClient} from '../src/BilibiliClient'
-import {DanmakuMessage} from '../src/live/websocket/Parser'
+import {LiveClient, BilibiliClient, DanmakuMessage} from 'bili-live-danmaku'
 async function main() {
   const bilibiliClient = new BilibiliClient()
   bilibiliClient.loginResponse = 'true'
@@ -22,7 +20,7 @@ async function main() {
       const outs = `${
         dmk.hasFansMedal ? `[${dmk.fansMedalName} ${dmk.fansMedalLevel}] ` : ''
       } ${dmk.nickname}: ${dmk.message}`
-      console.log(outs);
+      console.log(outs)
     }
   }
   await liveClient.launch()
