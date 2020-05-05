@@ -92,7 +92,7 @@ export class LiveClient {
         this.roomId = mobileRoom.room_id
         anchorUserId = mobileRoom.uid
       }
-      
+
       // 获取wss地址与端口
       let host = 'broadcastlv.chat.bilibili.com'
       let port = 443
@@ -136,6 +136,7 @@ export class LiveClient {
             case PacketType.ENTER_ROOM_RESPONSE:
               this.connected = true
               this._callbacks.onConnect?.call(this, this)
+              break
             case PacketType.POPULARITY:
               this._callbacks.onPopularityPacket?.call(
                 this,

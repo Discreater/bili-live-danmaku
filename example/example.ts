@@ -1,3 +1,7 @@
+// import { BilibiliClient } from "../src/BilibiliClient";
+// import {LiveClient} from "../src/live/websocket/LiveClient";
+// import {DanmakuMessage} from "../src/live/websocket/Parser";
+
 import {LiveClient, BilibiliClient, DanmakuMessage} from 'bili-live-danmaku'
 async function main() {
   const bilibiliClient = new BilibiliClient()
