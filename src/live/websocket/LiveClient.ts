@@ -1,7 +1,7 @@
 import {PresetPacket} from './PresetPacket'
 import {LiveAPI} from '../LiveAPI'
 import {BilibiliClient} from '../../BilibiliClient'
-import WebSocket from 'ws'
+import WebSocket = require('ws')
 import Packet, {PacketType, getPacketType} from './Packet'
 import ByteBuffer from '../../shared/ByteBuffer'
 
@@ -92,7 +92,7 @@ export class LiveClient {
         this.roomId = mobileRoom.room_id
         anchorUserId = mobileRoom.uid
       }
-
+      
       // 获取wss地址与端口
       let host = 'broadcastlv.chat.bilibili.com'
       let port = 443
