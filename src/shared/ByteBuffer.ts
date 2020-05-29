@@ -1,10 +1,10 @@
 export default class ByteBuffer extends DataView{
   public pos: number;
   public limit: number;
-  constructor(buffer: ArrayBuffer){
-    super(buffer);
+  constructor(buffer: ArrayBuffer, offset?: number, len?: number){
+    super(buffer, offset, len);
     this.pos = 0;
-    this.limit = buffer.byteLength;
+    this.limit = len ?? buffer.byteLength;
   }
 
   get remain(){

@@ -14,17 +14,17 @@ export function getPacketType(n: number): PacketType {
 }
 
 export default class Packet {
-  shortTag: number
+  protocol: number
   packetType: PacketType
   tag: number
   content: ArrayBuffer
   constructor(
-    shortTag: number = 1,
+    protocol: number = 1,
     packetType: PacketType,
     tag: number = 1,
     content: ArrayBuffer
   ) {
-    this.shortTag = shortTag
+    this.protocol = protocol
     this.packetType = packetType
     this.tag = tag
     this.content = content
@@ -51,7 +51,7 @@ export default class Packet {
     new ByteBuffer(buffer)
       .putInt32(this.totalLength)
       .putInt16(this.headerLength)
-      .putInt16(this.shortTag)
+      .putInt16(this.protocol)
       .putInt32(this.packetType)
       .putInt32(this.tag)
       .put(this.content);

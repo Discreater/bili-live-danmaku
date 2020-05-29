@@ -4,6 +4,8 @@ import {BilibiliClient} from '../../BilibiliClient'
 import WebSocket = require('ws')
 import Packet, {PacketType, getPacketType} from './Packet'
 import ByteBuffer from '../../shared/ByteBuffer'
+import * as zlib from "zlib"
+
 
 interface CloseReason {
   code: number
@@ -129,8 +131,8 @@ export class LiveClient {
           compress: false
         })
       }
-      this.socket.onmessage = event => {
-        const packets = this.frameToBuffer(event.data as ArrayBuffer)
+      this.socket.onmessage = async event => {
+        const packets = await this.frameToBuffer(event.data as ArrayBuffer)
         packets.forEach(packet => {
           switch (packet.packetType) {
             case PacketType.ENTER_ROOM_RESPONSE:
@@ -186,18 +188,32 @@ export class LiveClient {
     this.socket?.close()
   }
 
-  private frameToBuffer(frame: ArrayBuffer) {
-    const buffer = new ByteBuffer(frame)
-    const bufferLength = buffer.byteLength
+  private async frameToBuffer(frame: ArrayBuffer | Buffer) {
+    let buffer: ByteBuffer
+    if(frame instanceof ArrayBuffer)
+      buffer = new ByteBuffer(frame)
+    else
+      buffer = new ByteBuffer(frame.buffer, frame.byteOffset, frame.byteLength)
+
+    const bufferLength = buffer.limit
     const packets: Packet[] = []
     while (buffer.pos < bufferLength) {
       const totalLength = buffer.readInt32()
-      const headerLength = buffer.readInt16()
-      const shortTag = buffer.readInt16()
+      const headerLength = buffer.readInt16() // fixed 16
+      const protocol = buffer.readInt16()     // current v2
       const packetType = getPacketType(buffer.readInt32())
       const tag = buffer.readInt32()
       const content = buffer.read(totalLength - headerLength)
-      packets.push(new Packet(shortTag, packetType, tag, content))
+      if(protocol === 2){
+        const decontent = await new Promise<Buffer>((resolve, reject) => {
+          zlib.inflate(content, (err, buffer) => {
+            if(!err) resolve(buffer)
+          })
+        })
+        packets.push(...await this.frameToBuffer(decontent));
+      }else {
+        packets.push(new Packet(protocol, packetType, tag, content))
+      }
     }
     return packets
   }

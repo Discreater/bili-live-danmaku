@@ -1,12 +1,12 @@
-// import { BilibiliClient } from "../src/BilibiliClient";
-// import {LiveClient} from "../src/live/websocket/LiveClient";
-// import {DanmakuMessage} from "../src/live/websocket/Parser";
+import { BilibiliClient } from "../src/BilibiliClient";
+import {LiveClient} from "../src/live/websocket/LiveClient";
+import {DanmakuMessage} from "../src/live/websocket/Parser";
 
-import {LiveClient, BilibiliClient, DanmakuMessage} from 'bili-live-danmaku'
+// import {LiveClient, BilibiliClient, DanmakuMessage} from 'bili-live-danmaku'
 async function main() {
   const bilibiliClient = new BilibiliClient()
   bilibiliClient.loginResponse = 'true'
-  const liveClient = new LiveClient(bilibiliClient, 3)
+  const liveClient = new LiveClient(bilibiliClient, 102)
   liveClient.onClose = reason => {
     console.log('')
     console.log('Closed: ')

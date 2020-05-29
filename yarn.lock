@@ -164,17 +164,6 @@ balanced-match@^1.0.0:
   resolved "https://registry.npm.taobao.org/balanced-match/download/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
 
-bili-live-danmaku@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npm.taobao.org/bili-live-danmaku/download/bili-live-danmaku-1.0.1.tgz#2f453afab6bb23b846ba001ebd9d3436bb201e6d"
-  integrity sha1-L0U6+ra7I7hGugAevZ00NrsgHm0=
-  dependencies:
-    axios "^0.19.2"
-    ws "^7.2.5"
-  optionalDependencies:
-    bufferutil "^4.0.1"
-    utf-8-validate "^5.0.2"
-
 brace-expansion@^1.1.7:
   version "1.1.11"
   resolved "https://registry.npm.taobao.org/brace-expansion/download/brace-expansion-1.1.11.tgz#3c7fcbf529d87226f3d2f52b966ff5271eb441dd"
