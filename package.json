@@ -8,7 +8,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "build": "tsc",
-    "example": "ts-node ./src/example.ts"
+    "example": "ts-node ./example/example.ts"
   },
   "repository": {
     "type": "git",
