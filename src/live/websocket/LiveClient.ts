@@ -1,8 +1,8 @@
-import {PresetPacket} from './PresetPacket'
-import {LiveAPI} from '../LiveAPI'
-import {BilibiliClient} from '../../BilibiliClient'
+import { PresetPacket } from './PresetPacket'
+import { LiveAPI } from '../LiveAPI'
+import { BilibiliClient } from '../../BilibiliClient'
 import WebSocket = require('ws')
-import Packet, {PacketType, getPacketType} from './Packet'
+import Packet, { PacketType, getPacketType } from './Packet'
 import ByteBuffer from '../../shared/ByteBuffer'
 import * as zlib from "zlib"
 
@@ -60,7 +60,7 @@ export class LiveClient {
   ) {
     this.roomId = maybeShortRoomId
     this._callbacks = callbacks
-    this.config = {...defaultConfig, ...config}
+    this.config = { ...defaultConfig, ...config }
   }
 
   roomMessage?: string
@@ -190,7 +190,7 @@ export class LiveClient {
 
   private async frameToBuffer(frame: ArrayBuffer | Buffer) {
     let buffer: ByteBuffer
-    if(frame instanceof ArrayBuffer)
+    if (frame instanceof ArrayBuffer)
       buffer = new ByteBuffer(frame)
     else
       buffer = new ByteBuffer(frame.buffer, frame.byteOffset, frame.byteLength)
@@ -204,14 +204,14 @@ export class LiveClient {
       const packetType = getPacketType(buffer.readInt32())
       const tag = buffer.readInt32()
       const content = buffer.read(totalLength - headerLength)
-      if(protocol === 2){
+      if (protocol === 2) {
         const decontent = await new Promise<Buffer>((resolve, reject) => {
           zlib.inflate(content, (err, buffer) => {
-            if(!err) resolve(buffer)
+            if (!err) resolve(buffer)
           })
         })
         packets.push(...await this.frameToBuffer(decontent));
-      }else {
+      } else {
         packets.push(new Packet(protocol, packetType, tag, content))
       }
     }

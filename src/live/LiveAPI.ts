@@ -43,7 +43,7 @@ export namespace LiveAPI {
    * 用于确认客户端在看直播的心跳包(与弹幕推送无关)
    * 每五分钟发送一次
    */
-  export async function userOnlineHeart(roomId: number, scale: string = "xxhdpi"){
+  export async function userOnlineHeart(roomId: number, scale: string = "xxhdpi") {
     await axios.post('/mobile/userOnlineHeart', {
       room_id: roomId,
       scale

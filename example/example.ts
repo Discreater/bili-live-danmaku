@@ -1,6 +1,6 @@
 import { BilibiliClient } from "../src/BilibiliClient";
-import {LiveClient} from "../src/live/websocket/LiveClient";
-import {DanmakuMessage} from "../src/live/websocket/Parser";
+import { LiveClient } from "../src/live/websocket/LiveClient";
+import { DanmakuMessage } from "../src/live/websocket/Parser";
 
 // import {LiveClient, BilibiliClient, DanmakuMessage} from 'bili-live-danmaku'
 async function main() {
@@ -21,9 +21,8 @@ async function main() {
   liveClient.onCommandPacket = command => {
     if (command.cmd == 'DANMU_MSG') {
       const dmk = new DanmakuMessage(command)
-      const outs = `${
-        dmk.hasFansMedal ? `[${dmk.fansMedalName} ${dmk.fansMedalLevel}] ` : ''
-      } ${dmk.nickname}: ${dmk.message}`
+      const outs = `${dmk.hasFansMedal ? `[${dmk.fansMedalName} ${dmk.fansMedalLevel}] ` : ''
+        } ${dmk.nickname}: ${dmk.message}`
       console.log(outs)
     }
   }

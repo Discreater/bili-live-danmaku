@@ -1,5 +1,5 @@
 export class BilibiliClient {
-  constructor(){}
+  constructor() { }
 
   loginResponse?: string;
   get isLogin() {

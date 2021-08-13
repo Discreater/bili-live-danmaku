@@ -2,7 +2,7 @@
  * 用于解析DANMU_MSG的工具类
  */
 export class DanmakuMessage {
-  constructor(public data: any) {}
+  constructor(public data: any) { }
 
   get info(): any[] {
     return this.data.info
