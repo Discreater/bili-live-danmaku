@@ -127,7 +127,6 @@ export class LiveClient {
         ).toFrame()
         this.socket?.send(enterRoomFrame, {
           binary: true,
-          mask: false,
           compress: false
         })
       }
@@ -164,7 +163,6 @@ export class LiveClient {
           const heartbeatFrame = PresetPacket.heartbeatPacket().toFrame()
           this.socket?.send(heartbeatFrame, {
             binary: true,
-            mask: false,
             compress: false
           })
         }
