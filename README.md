@@ -1,5 +1,7 @@
 # Bilibili live danmaku
 
+![npm](https://img.shields.io/npm/v/bili-live-danmaku)
+
 获取B站直播间弹幕及人气值。
 
 仅可用于`Node`
@@ -11,6 +13,8 @@ yarn add bili-live-danmaku
 ```
 
 ## 用法
+
+内置普通文本（弹幕）包解析： `DanmakuMessage`
 
 ```typescript
 import {LiveClient, BilibiliClient, DanmakuMessage} from 'bili-live-danmaku'
@@ -48,4 +52,7 @@ main()
 
 ---
 
-弹幕协议参考自[https://github.com/czp3009/bilibili-api](https://github.com/czp3009/bilibili-api)
+## Credits
+
+- https://github.com/SocialSisterYi/bilibili-API-collect
+- https://github.com/czp3009/bilibili-api
