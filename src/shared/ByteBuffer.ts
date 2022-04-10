@@ -53,8 +53,20 @@ export default class ByteBuffer extends DataView {
     return res;
   }
 
+  public readUint32() {
+    const res = this.getUint32(this.pos);
+    this.pos += 4;
+    return res;
+  }
+
   public readInt16() {
     const res = this.getInt16(this.pos);
+    this.pos += 2;
+    return res;
+  }
+
+  public readUint16() {
+    const res = this.getUint16(this.pos);
     this.pos += 2;
     return res;
   }

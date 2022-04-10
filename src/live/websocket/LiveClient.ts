@@ -196,11 +196,11 @@ export class LiveClient {
     const bufferLength = buffer.limit
     const packets: Packet[] = []
     while (buffer.pos < bufferLength) {
-      const totalLength = buffer.readInt32()
-      const headerLength = buffer.readInt16() // fixed 16
-      const protocol = buffer.readInt16()     // current v2
-      const packetType = getPacketType(buffer.readInt32())
-      const tag = buffer.readInt32()
+      const totalLength = buffer.readUint32()
+      const headerLength = buffer.readUint16() // fixed 16
+      const protocol = buffer.readUint16()     // current v2
+      const packetType = getPacketType(buffer.readUint32())
+      const tag = buffer.readUint32()
       const content = buffer.read(totalLength - headerLength)
       if (protocol === 2) {
         const decontent = await new Promise<Buffer>((resolve, reject) => {
@@ -211,6 +211,9 @@ export class LiveClient {
         packets.push(...await this.frameToBuffer(decontent));
       } else {
         packets.push(new Packet(protocol, packetType, tag, content))
+        if (protocol === 1) { // 长度为 35, 心跳回应占 20, 剩余 15 无法正常解析
+          break;
+        }
       }
     }
     return packets
