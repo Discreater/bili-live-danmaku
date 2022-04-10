@@ -12,7 +12,7 @@ export default class ByteBuffer extends DataView {
   }
 
   public putUint8(value: number) {
-    this.setUint8(this.pos, value)
+    this.setUint8(this.pos, value);
     this.pos += 1;
   }
 
@@ -31,14 +31,13 @@ export default class ByteBuffer extends DataView {
   public put(src: ArrayBuffer) {
     if (src.byteLength > this.remain) {
       throw new Error(
-        'Buffer overflow!'
-      )
+        'Buffer overflow!',
+      );
     }
     const srcView = new Uint8Array(src);
     const len = this.remain;
-    for (let i = 0; i < len; i++) {
+    for (let i = 0; i < len; i++)
       this.putUint8(srcView[i]);
-    }
   }
 
   public readUint8() {
@@ -72,14 +71,14 @@ export default class ByteBuffer extends DataView {
   }
 
   public read(length: number) {
-    if (length > this.remain) {
-      throw new Error('Read from buffer overflow')
-    }
+    if (length > this.remain)
+      throw new Error('Read from buffer overflow');
+
     const target = new ArrayBuffer(length);
     const targetView = new Uint8Array(target);
-    for (let i = 0; i < length; i++) {
+    for (let i = 0; i < length; i++)
       targetView[i] = this.readUint8();
-    }
+
     return target;
   }
 }

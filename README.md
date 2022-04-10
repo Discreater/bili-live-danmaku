@@ -34,7 +34,7 @@ async function main() {
     console.log(`人气值: ${popularity}`)
   }
   liveClient.onCommandPacket = command => {
-    if (command.cmd == 'DANMU_MSG') {
+    if (command.cmd === 'DANMU_MSG') {
       const dmk = new DanmakuMessage(command)
       const outs = `${
         dmk.hasFansMedal ? `[${dmk.fansMedalName} ${dmk.fansMedalLevel}] ` : ''

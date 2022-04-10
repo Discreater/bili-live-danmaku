@@ -1,29 +1,29 @@
-import raw from 'axios'
-import MobileRoom from './model/MobileRoom'
-import DanmakuConfig from './model/DanmakuConfig'
+import raw from 'axios';
+import type MobileRoom from './model/MobileRoom';
+import type DanmakuConfig from './model/DanmakuConfig';
 
-const axios = raw.create()
-axios.defaults.baseURL = 'https://api.live.bilibili.com'
+const axios = raw.create();
+axios.defaults.baseURL = 'https://api.live.bilibili.com';
 
 export namespace LiveAPI {
   export async function mobileRoomInit(id: number): Promise<MobileRoom> {
     const res = await axios.get('/room/v1/Room/mobileRoomInit', {
       params: {
-        id
-      }
-    })
-    return res.data as MobileRoom
+        id,
+      },
+    });
+    return res.data as MobileRoom;
   }
 
   export async function getDanmakuConfig(
-    roomId: number
+    roomId: number,
   ): Promise<DanmakuConfig> {
     const res = await axios.get('/room/v1/Danmu/getConf', {
       params: {
-        room_id: roomId
-      }
-    })
-    return res.data as DanmakuConfig
+        room_id: roomId,
+      },
+    });
+    return res.data as DanmakuConfig;
   }
 
   /**
@@ -31,22 +31,23 @@ export namespace LiveAPI {
    * 访问该接口将在自己的账户中产生一条观看直播的历史记录
    *
    * @param roomId 房间号
+   * @param jumpFrom
    */
-  export async function roomEntryAction(roomId: number, jumpFrom: number = 0) {
-    const res = await axios.post('/room/v1/Room/room_entry_action', {
+  export async function roomEntryAction(roomId: number, jumpFrom = 0) {
+    const _res = await axios.post('/room/v1/Room/room_entry_action', {
       room_id: roomId,
-      jumpFrom
-    })
+      jumpFrom,
+    });
   }
 
   /**
    * 用于确认客户端在看直播的心跳包(与弹幕推送无关)
    * 每五分钟发送一次
    */
-  export async function userOnlineHeart(roomId: number, scale: string = "xxhdpi") {
+  export async function userOnlineHeart(roomId: number, scale = 'xxhdpi') {
     await axios.post('/mobile/userOnlineHeart', {
       room_id: roomId,
-      scale
+      scale,
     });
   }
 }
