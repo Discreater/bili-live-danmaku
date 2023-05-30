@@ -1,4 +1,7 @@
-import * as zlib from 'zlib';
+import * as zlib from 'node:zlib';
+import type { Buffer } from 'node:buffer';
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 import WebSocket = require('ws');
 import { LiveAPI } from '../LiveAPI';
 import type { BilibiliClient } from '../../BilibiliClient';
@@ -45,6 +48,7 @@ export class LiveClient {
   private _callbacks: LiveCallback;
   private restHeartBearJob?: ReturnType<typeof setInterval>;
   private websocketHeartBeatJob?: ReturnType<typeof setInterval>;
+  private api: LiveAPI;
   /**
    *
    * @param bilibiliClient 客户端
@@ -61,6 +65,7 @@ export class LiveClient {
     this.roomId = maybeShortRoomId;
     this._callbacks = callbacks;
     this.config = { ...defaultConfig, ...config };
+    this.api = new LiveAPI();
   }
 
   roomMessage?: string;
@@ -87,11 +92,11 @@ export class LiveClient {
 
   public async launch(): Promise<void> {
     // eslint-disable-next-line no-async-promise-executor
-    return new Promise<void>(async(resolve, _reject) => {
+    return new Promise<void>(async (resolve, _reject) => {
       // 得到原始房间号与主播uid
       let anchorUserId = 0;
       if (this.config.fetchRoomId) {
-        const mobileRoom = (await LiveAPI.mobileRoomInit(this.roomId)).data;
+        const mobileRoom = (await this.api.mobileRoomInit(this.roomId)).data;
         this.roomId = mobileRoom.room_id;
         anchorUserId = mobileRoom.uid;
       }
@@ -100,7 +105,7 @@ export class LiveClient {
       let host = 'broadcastlv.chat.bilibili.com';
       let _port = 443;
       if (this.config.fetchDanmakuConfig) {
-        const danmakuConfig = (await LiveAPI.getDanmakuConfig(this.roomId)).data;
+        const danmakuConfig = (await this.api.getDanmakuConfig(this.roomId)).data;
         host = danmakuConfig.host;
         for (const server of danmakuConfig.host_server_list) {
           if (server.host === host && server.wss_port) {
@@ -112,7 +117,7 @@ export class LiveClient {
 
       // 产生历史记录
       if (this.config.doEntryRoomAction && this.bilibiliClient.isLogin)
-        LiveAPI.roomEntryAction(this.roomId);
+        this.api.roomEntryAction(this.roomId);
 
       // 开启 websocket
       const url = `wss://${host}/sub`;
@@ -130,7 +135,7 @@ export class LiveClient {
           compress: false,
         });
       };
-      this.socket.onmessage = async(event) => {
+      this.socket.onmessage = async (event) => {
         const packets = await this.frameToBuffer(event.data as ArrayBuffer);
         packets.forEach((packet) => {
           switch (packet.packetType) {
@@ -154,7 +159,7 @@ export class LiveClient {
 
       if (this.config.sendUserOnlineHeart && this.bilibiliClient.isLogin) {
         this.restHeartBearJob = setInterval(() => {
-          LiveAPI.userOnlineHeart(this.roomId);
+          this.api.userOnlineHeart(this.roomId);
         }, 300000); // every five minutes
       }
 

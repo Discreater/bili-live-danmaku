@@ -5,8 +5,8 @@ import type DanmakuConfig from './model/DanmakuConfig';
 const axios = raw.create();
 axios.defaults.baseURL = 'https://api.live.bilibili.com';
 
-export namespace LiveAPI {
-  export async function mobileRoomInit(id: number): Promise<MobileRoom> {
+export class LiveAPI {
+  async mobileRoomInit(id: number): Promise<MobileRoom> {
     const res = await axios.get('/room/v1/Room/mobileRoomInit', {
       params: {
         id,
@@ -15,7 +15,7 @@ export namespace LiveAPI {
     return res.data as MobileRoom;
   }
 
-  export async function getDanmakuConfig(
+  async getDanmakuConfig(
     roomId: number,
   ): Promise<DanmakuConfig> {
     const res = await axios.get('/room/v1/Danmu/getConf', {
@@ -33,7 +33,7 @@ export namespace LiveAPI {
    * @param roomId 房间号
    * @param jumpFrom
    */
-  export async function roomEntryAction(roomId: number, jumpFrom = 0) {
+  async roomEntryAction(roomId: number, jumpFrom = 0) {
     const _res = await axios.post('/room/v1/Room/room_entry_action', {
       room_id: roomId,
       jumpFrom,
@@ -44,7 +44,7 @@ export namespace LiveAPI {
    * 用于确认客户端在看直播的心跳包(与弹幕推送无关)
    * 每五分钟发送一次
    */
-  export async function userOnlineHeart(roomId: number, scale = 'xxhdpi') {
+  async userOnlineHeart(roomId: number, scale = 'xxhdpi') {
     await axios.post('/mobile/userOnlineHeart', {
       room_id: roomId,
       scale,
