@@ -1,3 +1,5 @@
+Please use [blive-message-listener](https://npmjs.com/blive-message-listener)
+----
 # Bilibili live danmaku
 
 ![npm](https://img.shields.io/npm/v/bili-live-danmaku)
